@@ -49,10 +49,15 @@ public class TrayBowl {
                     desk.updateStatistics();
                     break;
                 case 2:
-                    System.out.println("Change name 'Player 1':\n");
+                    System.out.println("size of the game (now " + iGameSize + "):");
+                    iGameSize = scanner.nextInt();
+                    System.out.println("initial number of seeds in bowls (now " + iInitialNumberOfSeeds + "):");
+                    iInitialNumberOfSeeds = scanner.nextInt();
+                    System.out.println("change name " + p1.getName());
                     p1.setName(scanner.nextLine());
-                    System.out.println("Change name 'Player 2':\n");
+                    System.out.println("change name " + p2.getName());
                     p2.setName(scanner.nextLine());
+                    deskTemp = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
                     break;
                 case 3:
                     System.out.println("please insert game state (" + iGameSize + " bowls, than tray, repeat twice)\n" +
