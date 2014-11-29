@@ -50,6 +50,7 @@ public class TrayBowl {
                     break;
                 case 2:
                     System.out.println("game size (now " + iGameSize + "):");
+                    System.out.println();
                     iGameSize = scanner.nextInt();
                     System.out.println("initial number of seeds in bowls (now " + iInitialNumberOfSeeds + "):");
                     iInitialNumberOfSeeds = scanner.nextInt();
