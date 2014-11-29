@@ -18,6 +18,9 @@ public class Desk {
     public boolean getCurrentPlayerTurn(){
         return this.bIfTurnOfFirst;
     }
+    public ArrayList<Bowl> getGameState(){
+        return aBowls;
+    }
 
     public Desk(int iGameSize, int iInitialNumberOfSeeds, Player p1, Player p2){
         this.p1 = p1;
@@ -49,6 +52,7 @@ public class Desk {
     }
 
     public boolean isValidTurn(int iPosition){
+        if (iPosition < 1 || iPosition > iGameSize) return false;
         return aBowls.get(this.relativePosition(iPosition)).getNumberOfSeeds() != 0;
     }
 
