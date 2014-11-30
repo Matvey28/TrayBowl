@@ -12,17 +12,30 @@ public class DeskTest extends TestCase {
 
     protected void setUp() {
         mDeskTest = new Desk(6, 3, new Player("Petr"), new Player("Vitek"));
-    }
 
+        int gameSize = mDeskTest.getGameSize();
+
+        ArrayList<Integer> aiTest = new ArrayList<Integer>();
+        for (int p = 0; p < 2; p++) {
+            for (int i = 0; i < gameSize; i++){
+                aiTest.add(3);
+            }
+            aiTest.add(0);
+        }
+
+        mDeskTest.makeCustomDesk(aiTest);
+
+    }
 
     public void testIsValidTurn() {
         setUp();
-        ArrayList<Integer> aiTest = new ArrayList<Integer>();
-        for (int i = 0; i < aiTest.size(); i++){
-            aiTest.add(3);
-        }
-        aiTest.set(1, 0);
-        mDeskTest.makeCustomDesk(aiTest);
-        assertTrue(!mDeskTest.isValidTurn(1));
+
+        assertTrue(mDeskTest.isValidTurn(1));
+    }
+
+    public void testIsStolen() {
+        setUp();
+
+        //mDeskTest.setSeedsAmount();
     }
 }

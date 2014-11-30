@@ -44,30 +44,67 @@ public class Desk {
         this.bIfTurnOfFirst = true; // first turn is of the first player
     }
 
+
+    // check if there is any possible turn for the next player
+    public boolean isLastTurn(){
+        for (int i = 0; i < iGameSize; i++){
+            if (aBowls.get(this.absolutePosition(i + 1)).getNumberOfSeeds() > 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // validation of the turn
+    public boolean isValidTurn(int position){
+        if (position < 1 || position > iGameSize) return false;
+        return aBowls.get(this.absolutePosition(position)).getNumberOfSeeds() != 0;
+    }
+
+    // check if it's possible to steal opponent's seeds
+    public boolean isAbleToSteal(int position){
+        if (position == iPositionOfTray1 || position == iPositionOfTray2) return false;
+        if ((position < iPositionOfTray1) != bIfTurnOfFirst) return false;
+        return aBowls.get(position).getNumberOfSeeds() == 1;
+    }
+
+    // obtain winner by comparing number of seeds in players' trays
+    public boolean getWinner(){
+        return aBowls.get(iPositionOfTray1).getNumberOfSeeds() > aBowls.get(iPositionOfTray2).getNumberOfSeeds();
+    }
+
+    // obtain gamesize
+    public int getGameSize() {
+        return this.iGameSize;
+    }
+
+    // sets specified seeds amount to the bowl
+    public void setSeedsAmount( int bowl, int amount ) {
+        if (bowl > aBowls.size())
+            return;
+
+        this.aBowls.get(bowl).setNumberOfSeeds(amount);
+    }
+
+
     // make specific state out of integer array
-    public void makeCustomDesk(ArrayList<Integer> aiCustomDesk){
-        if ( aiCustomDesk.size() < iGameSize )
+    public void makeCustomDesk(ArrayList<Integer> customDesk){
+        if ( customDesk.size() < iGameSize )
             return;
 
         for (int i = 0; i < iGameSize; i++){
-            aBowls.set(i, new Bowl(aiCustomDesk.get(i)));
+            aBowls.set(i, new Bowl(customDesk.get(i)));
         }
     }
 
     // obtain absolute position in the array out of relative position of the player
-    private int absolutePosition(int iAbsolutePosition){
-        return (bIfTurnOfFirst) ? iAbsolutePosition - 1 : iAbsolutePosition + iGameSize;
-    }
-
-    // validation of the turn
-    public boolean isValidTurn(int iPosition){
-        if (iPosition < 1 || iPosition > iGameSize) return false;
-        return aBowls.get(this.absolutePosition(iPosition)).getNumberOfSeeds() != 0;
+    private int absolutePosition(int absolutePosition){
+        return (bIfTurnOfFirst) ? absolutePosition - 1 : absolutePosition + iGameSize;
     }
 
     // move seeds according to the rules of the game
-    public void moveSeeds(int iPosition){
-        int iRelativePosition = this.absolutePosition(iPosition);
+    public void moveSeeds(int position){
+        int iRelativePosition = this.absolutePosition(position);
         int iTempPosition = iRelativePosition;
         int iNumberOfTakenSeeds = aBowls.get(iRelativePosition).takeAllSeeds();
         for (int i = 0; i < iNumberOfTakenSeeds; i++){
@@ -89,31 +126,9 @@ public class Desk {
         this.changeTurn();
     }
 
-    // check if it's possible to steal opponent's seeds
-    public boolean isAbleToSteal(int iPosition){
-        if (iPosition == iPositionOfTray1 || iPosition == iPositionOfTray2) return false;
-        if ((iPosition < iPositionOfTray1) != bIfTurnOfFirst) return false;
-        return aBowls.get(iPosition).getNumberOfSeeds() == 1;
-    }
-
     // change turn
     private void changeTurn(){
         bIfTurnOfFirst = !bIfTurnOfFirst;
-    }
-
-    // check if there is any possible turn for the next player
-    public boolean isLastTurn(){
-        for (int i = 0; i < iGameSize; i++){
-            if (aBowls.get(this.absolutePosition(i + 1)).getNumberOfSeeds() > 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // obtain winner by comparing number of seeds in players' trays
-    public boolean getWinner(){
-        return aBowls.get(iPositionOfTray1).getNumberOfSeeds() > aBowls.get(iPositionOfTray2).getNumberOfSeeds();
     }
 
     // update statistics of the players

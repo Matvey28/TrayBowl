@@ -7,12 +7,16 @@ public class Bowl {
 
     private int iNumberOfSeeds; // current number of seeds in the bowl
 
+    public Bowl(int iNumberOfSeeds){
+        this.iNumberOfSeeds = iNumberOfSeeds;
+    }
+
     public int getNumberOfSeeds() {
         return iNumberOfSeeds;
     }
 
-    public Bowl(int iNumberOfSeeds){
-        this.iNumberOfSeeds = iNumberOfSeeds;
+    public void setNumberOfSeeds(int amount) {
+        this.iNumberOfSeeds = amount;
     }
 
     // take all seeds from the bowl and return its number
