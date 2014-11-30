@@ -22,14 +22,14 @@ public class Desk {
         return aBowls;
     }
 
-    public Desk(int iGameSize, int iInitialNumberOfSeeds, Player p1, Player p2){
+    public Desk(int GameSize, int InitialNumberOfSeeds, Player p1, Player p2){
         this.p1 = p1;
-        this.p2 = p1;
+        this.p2 = p2;
 
-        this.iGameSize = iGameSize;
+        this.iGameSize = GameSize;
         this.iPositionOfTray1 = iGameSize;
         this.iPositionOfTray2 = 2 * iGameSize + 1;
-        this.iInitialNumberOfSeeds = iInitialNumberOfSeeds; //
+        this.iInitialNumberOfSeeds = InitialNumberOfSeeds; //
 
         aBowls = new ArrayList<Bowl>();
         for(int n = 0; n < 2; n++){
@@ -67,19 +67,19 @@ public class Desk {
             }
             aBowls.get(iTempPosition).putSeeds(1);
         }
-        if (this.isHappyHour(iTempPosition)){
+        if (this.isAbleToSteal(iTempPosition)){
             aBowls.get((bIfTurnOfFirst) ? iPositionOfTray1 : iPositionOfTray2)
                     .putSeeds(aBowls.get(iTempPosition).takeAllSeeds());
             int iPositionOfStolenBowl = (bIfTurnOfFirst) ?
                     iPositionOfTray1 + (iPositionOfTray1 - iTempPosition) :
-                    iPositionOfTray2 - iTempPosition ;
+                    iPositionOfTray2 - iTempPosition - 1;
             aBowls.get((bIfTurnOfFirst) ? iPositionOfTray1 : iPositionOfTray2)
                     .putSeeds(aBowls.get(iPositionOfStolenBowl).takeAllSeeds());
         }
         this.changeTurn();
     }
 
-    public boolean isHappyHour(int iPosition){
+    public boolean isAbleToSteal(int iPosition){
         if (iPosition == iPositionOfTray1 || iPosition == iPositionOfTray2) return false;
         if ((iPosition < iPositionOfTray1) != bIfTurnOfFirst) return false;
         return aBowls.get(iPosition).getNumberOfSeeds() == 1;
@@ -127,5 +127,4 @@ public class Desk {
         sDesk += s1 + "\n" + s2 + "\n" + s3;
         return sDesk;
     }
-
 }
