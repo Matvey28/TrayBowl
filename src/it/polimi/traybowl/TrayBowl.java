@@ -1,8 +1,5 @@
 package it.polimi.traybowl;
 
-import android.app.Application;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,15 +10,21 @@ public class TrayBowl {
 
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Tray&Bowl game\n");
+
         int iGameSize = 6;
         int iInitialNumberOfSeeds = 3;
+        int iCurrentTurn;
+
         Player p1 = new Player("Player 1");
         Player p2 = new Player("Player 2");
+
         Desk desk = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
         Desk deskTemp = desk;
+
         boolean exit = false;
-        int iCurrentTurn;
+
+        System.out.println("Welcome to Tray&Bowl game\n");
+
         do{
             System.out.println("Insert key:\n" +
                     "1 - start game\n" +
@@ -29,6 +32,7 @@ public class TrayBowl {
                     "3 - make custom desk\n" +
                     "9 - game rules\n" +
                     "0 - exit");
+
             switch (scanner.nextInt()){
                 case 1: // start game
 
@@ -45,19 +49,24 @@ public class TrayBowl {
                         desk.moveSeeds(iCurrentTurn);
                         System.out.println(desk.toString());
                     } while (!desk.isLastTurn());
+
                     System.out.println("And the winner is ... " + ((desk.winner()) ? p1.getName() : p2.getName()));
                     desk.updateStatistics();
                     desk = deskTemp;
                     break;
                 case 2:
                     System.out.println("game size (now " + iGameSize + "):");
+
                     iGameSize = scanner.nextInt();
                     System.out.println("initial number of seeds in bowls (now " + iInitialNumberOfSeeds + "):");
+
                     iInitialNumberOfSeeds = scanner.nextInt();
                     System.out.println("change name " + p1.getName());
+
                     String sPlayerName = scanner.nextLine();
                     p1.setName(sPlayerName);
                     System.out.println("change name " + p2.getName());
+
                     sPlayerName = scanner.nextLine();
                     p2.setName(sPlayerName);
                     deskTemp = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
@@ -65,10 +74,12 @@ public class TrayBowl {
                 case 3:
                     System.out.println("please insert game state (" + iGameSize + " bowls, than tray, repeat twice)\n" +
                             "start from the first bowl of the 1st player\ngo counter clockwise");
+
                     ArrayList<Integer> aiCustomDesk = new ArrayList<Integer>();
                     for (int i = 0; i < iGameSize * 2 + 2; i++){
                         aiCustomDesk.add(scanner.nextInt());
                     }
+
                     deskTemp.makeCustomDesk(aiCustomDesk);
                     break;
                 case 0: // exit

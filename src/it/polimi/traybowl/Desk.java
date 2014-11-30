@@ -112,6 +112,7 @@ public class Desk {
         String s1 = "";
         String s2 = "";
         String s3 = "";
+
         for (int i = 0; i < iGameSize; i++){
             s1 += aBowls.get(aBowls.size() - 2 - i).getNumberOfSeeds() + " ";
         }
