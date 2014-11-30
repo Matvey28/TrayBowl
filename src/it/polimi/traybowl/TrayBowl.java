@@ -47,6 +47,7 @@ public class TrayBowl {
                     } while (!desk.isLastTurn());
                     System.out.println("And the winner is ... " + ((desk.winner()) ? p1.getName() : p2.getName()));
                     desk.updateStatistics();
+                    desk = deskTemp;
                     break;
                 case 2:
                     System.out.println("game size (now " + iGameSize + "):");
@@ -54,9 +55,11 @@ public class TrayBowl {
                     System.out.println("initial number of seeds in bowls (now " + iInitialNumberOfSeeds + "):");
                     iInitialNumberOfSeeds = scanner.nextInt();
                     System.out.println("change name " + p1.getName());
-                    p1.setName(scanner.nextLine());
+                    String sPlayerName = scanner.nextLine();
+                    p1.setName(sPlayerName);
                     System.out.println("change name " + p2.getName());
-                    p2.setName(scanner.nextLine());
+                    sPlayerName = scanner.nextLine();
+                    p2.setName(sPlayerName);
                     deskTemp = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
                     break;
                 case 3:
