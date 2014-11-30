@@ -33,9 +33,37 @@ public class DeskTest extends TestCase {
         assertTrue(mDeskTest.isValidTurn(1));
     }
 
+    public void testBowlEmptied() {
+        setUp();
+
+        mDeskTest.moveSeeds(2);
+
+        assertTrue(mDeskTest.getSeedsAmount(1, 2) == 0);
+    }
+
+    public void testSeedsMoved() {
+        setUp();
+
+        mDeskTest.moveSeeds(2);
+
+        assertTrue(mDeskTest.getSeedsAmount(1, 3) == 4 && mDeskTest.getSeedsAmount(1, 4) == 4 && mDeskTest.getSeedsAmount(1, 5) == 4);
+    }
+
     public void testIsStolen() {
         setUp();
 
-        //mDeskTest.setSeedsAmount();
+        mDeskTest.setSeedsAmount(1, 3, 1);
+        mDeskTest.setSeedsAmount(1, 4, 0);
+
+        mDeskTest.moveSeeds(3);
+
+        assertTrue(mDeskTest.getSeedsAmount(mDeskTest.getSeedsAmount(2, 4)) == 0);
+    }
+
+    public void testMovementValidity() {
+        setUp();
+
+        assertFalse(mDeskTest.moveSeeds(42));
+        assertFalse(mDeskTest.moveSeeds(-42));
     }
 }

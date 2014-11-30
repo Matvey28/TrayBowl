@@ -7,7 +7,6 @@ import java.util.Scanner;
  * Created by Матвей on 27.11.14.
  */
 public class TrayBowl {
-
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
 
@@ -19,9 +18,9 @@ public class TrayBowl {
         Player p2 = new Player("Player 2");
 
         Desk desk = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
-        Desk deskTemp = desk;
 
         boolean exit = false;
+        boolean isCustomized = false;
 
         System.out.println("Welcome to Tray&Bowl game\n");
 
@@ -36,7 +35,12 @@ public class TrayBowl {
             switch (scanner.nextInt()){
                 case 1: // start game
 
-                    desk = deskTemp;
+                    if (!isCustomized) {
+                        desk = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
+                    } else {
+                        isCustomized = false;
+                    }
+                    //desk = deskTemp;
                     System.out.println(desk.toString());
 
                     do {
@@ -69,7 +73,7 @@ public class TrayBowl {
 
                     sPlayerName = scanner.nextLine();
                     p2.setName(sPlayerName);
-                    deskTemp = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
+                    desk = new Desk(iGameSize, iInitialNumberOfSeeds, p1, p2);
                     break;
                 case 3:
                     System.out.println("please insert game state (" + iGameSize + " bowls, than tray, repeat twice)\n" +
@@ -80,7 +84,8 @@ public class TrayBowl {
                         aiCustomDesk.add(scanner.nextInt());
                     }
 
-                    deskTemp.makeCustomDesk(aiCustomDesk);
+                    desk.makeCustomDesk(aiCustomDesk);
+                    isCustomized = true;
                     break;
                 case 0: // exit
                     exit = true;

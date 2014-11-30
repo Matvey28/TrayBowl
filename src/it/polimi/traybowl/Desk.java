@@ -78,12 +78,30 @@ public class Desk {
         return this.iGameSize;
     }
 
+    public int getSeedsAmount( int bowl ) {
+        return aBowls.get(bowl).getNumberOfSeeds();
+    }
+
+    public int getSeedsAmount( int player, int bowl ) {
+        if ( player < 1 || player > 2)
+            return 0;
+
+        int bowlId = (player - 1)*(iGameSize + 1) + bowl - 1;
+        return getSeedsAmount(bowlId);
+    }
+
     // sets specified seeds amount to the bowl
     public void setSeedsAmount( int bowl, int amount ) {
         if (bowl > aBowls.size())
             return;
 
         this.aBowls.get(bowl).setNumberOfSeeds(amount);
+    }
+
+    public void setSeedsAmount( int player, int bowl, int amount ) {
+        int bowlId = (player - 1)*(iGameSize + 1) + bowl - 1;
+
+        this.setSeedsAmount(bowlId, amount);
     }
 
 
@@ -103,7 +121,10 @@ public class Desk {
     }
 
     // move seeds according to the rules of the game
-    public void moveSeeds(int position){
+    public boolean moveSeeds(int position){
+        if ( !isValidTurn(position) )
+            return false;
+
         int iRelativePosition = this.absolutePosition(position);
         int iTempPosition = iRelativePosition;
         int iNumberOfTakenSeeds = aBowls.get(iRelativePosition).takeAllSeeds();
@@ -124,6 +145,8 @@ public class Desk {
                     .putSeeds(aBowls.get(iPositionOfStolenBowl).takeAllSeeds());
         }
         this.changeTurn();
+
+        return true;
     }
 
     // change turn
