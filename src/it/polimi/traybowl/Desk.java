@@ -22,14 +22,14 @@ public class Desk {
         return aBowls;
     }
 
-    public Desk(int GameSize, int InitialNumberOfSeeds, Player p1, Player p2){
+    public Desk(int gameSize, int initialNumberOfSeeds, Player p1, Player p2){
         this.p1 = p1;
         this.p2 = p2;
 
-        this.iGameSize = GameSize;
+        this.iGameSize = gameSize;
         this.iPositionOfTray1 = iGameSize;
         this.iPositionOfTray2 = 2 * iGameSize + 1;
-        this.iInitialNumberOfSeeds = InitialNumberOfSeeds; //
+        this.iInitialNumberOfSeeds = initialNumberOfSeeds; //
 
         aBowls = new ArrayList<Bowl>();
         for(int n = 0; n < 2; n++){
@@ -42,7 +42,10 @@ public class Desk {
     }
 
     public void makeCustomDesk(ArrayList<Integer> aiCustomDesk){
-        for (int i = 0; i < aBowls.size(); i++){
+        if ( aiCustomDesk.size() < iGameSize )
+            return;
+
+        for (int i = 0; i < iGameSize; i++){
             aBowls.set(i, new Bowl(aiCustomDesk.get(i)));
         }
     }
@@ -98,7 +101,7 @@ public class Desk {
         return true;
     }
 
-    public boolean winner(){
+    public boolean getWinner(){
         return aBowls.get(iPositionOfTray1).getNumberOfSeeds() > aBowls.get(iPositionOfTray2).getNumberOfSeeds();
     }
 
@@ -127,4 +130,5 @@ public class Desk {
         sDesk += s1 + "\n" + s2 + "\n" + s3;
         return sDesk;
     }
+
 }

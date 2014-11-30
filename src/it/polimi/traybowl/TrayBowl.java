@@ -46,11 +46,12 @@ public class TrayBowl {
                             System.out.println("invalid turn");
                             continue;
                         }
+                        
                         desk.moveSeeds(iCurrentTurn);
                         System.out.println(desk.toString());
                     } while (!desk.isLastTurn());
 
-                    System.out.println("And the winner is ... " + ((desk.winner()) ? p1.getName() : p2.getName()));
+                    System.out.println("And the winner is ... " + ((desk.getWinner()) ? p1.getName() : p2.getName()));
                     desk.updateStatistics();
                     desk = deskTemp;
                     break;
