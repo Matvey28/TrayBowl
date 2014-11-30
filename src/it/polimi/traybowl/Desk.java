@@ -86,6 +86,9 @@ public class Desk {
         if ( player < 1 || player > 2)
             return 0;
 
+        if ( bowl < 1 || bowl > iGameSize )
+            return 0;
+
         int bowlId = (player - 1)*(iGameSize + 1) + bowl - 1;
         return getSeedsAmount(bowlId);
     }
@@ -99,16 +102,39 @@ public class Desk {
     }
 
     public void setSeedsAmount( int player, int bowl, int amount ) {
+        if ( player < 1 || player > 2)
+            return;
+
+        if ( bowl < 1 || bowl > iGameSize )
+            return;
+
         int bowlId = (player - 1)*(iGameSize + 1) + bowl - 1;
 
         this.setSeedsAmount(bowlId, amount);
     }
 
+    // get amount of seeds from tray
+    public int getSeedsInTray(int player) {
+        if (player < 1 || player > 2)
+            return 0;
+
+        return getSeedsAmount(iGameSize * player + 1);
+    }
+
 
     // make specific state out of integer array
     public void makeCustomDesk(ArrayList<Integer> customDesk){
-        if ( customDesk.size() < iGameSize )
+
+        if ( customDesk.size() < 4 )
             return;
+
+        // if new array has uneven size = shorten it on one element
+        if ( customDesk.size()%2 != 0 )
+            customDesk.remove( customDesk.size() - 1 );
+
+        this.iGameSize = (customDesk.size() - 2) / 2;
+        this.iPositionOfTray1 = iGameSize;
+        this.iPositionOfTray2 = 2 * iGameSize + 1;
 
         for (int i = 0; i < iGameSize; i++){
             aBowls.set(i, new Bowl(customDesk.get(i)));

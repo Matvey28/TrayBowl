@@ -40,7 +40,6 @@ public class TrayBowl {
                     } else {
                         isCustomized = false;
                     }
-                    //desk = deskTemp;
                     System.out.println(desk.toString());
 
                     do {
