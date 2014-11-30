@@ -5,8 +5,8 @@ package it.polimi.traybowl;
  */
 public class Player {
 
-    private String sName;
-    private int iGames, iWins, iScore;
+    private String sName;               // player's name
+    private int iGames, iWins, iScore;  // number of played games, wins and score
 
     public String getName(){
         return sName;

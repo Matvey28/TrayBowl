@@ -7,17 +7,18 @@ import java.util.ArrayList;
  */
 public class Desk {
 
-    private Player p1, p2;
-    private ArrayList<Bowl> aBowls;
-    private boolean bIfTurnOfFirst;
-    private int iPositionOfTray1;
-    private int iPositionOfTray2;
-    private int iGameSize;
-    private int iInitialNumberOfSeeds;
+    private Player p1, p2;              // players participating the game
+    private ArrayList<Bowl> aBowls;     // 'map' of the game, its current state
+    private boolean bIfTurnOfFirst;     // true for first player, false for second
+    private int iPositionOfTray1;       //
+    private int iPositionOfTray2;       // positions of tray of players
+    private int iGameSize;              // size of the game (number of bowl of each player
+    private int iInitialNumberOfSeeds;  // initial number of seeds in bowls
 
     public boolean getCurrentPlayerTurn(){
         return this.bIfTurnOfFirst;
     }
+
     public ArrayList<Bowl> getGameState(){
         return aBowls;
     }
@@ -32,15 +33,18 @@ public class Desk {
         this.iInitialNumberOfSeeds = initialNumberOfSeeds; //
 
         aBowls = new ArrayList<Bowl>();
-        for(int n = 0; n < 2; n++){
+
+        // make initial state of the game
+        for(int n = 0; n < 2; n++){ // 2 times
             for(int i = 0; i < iGameSize; i++){
                 aBowls.add(new Bowl(iInitialNumberOfSeeds));
             }
             aBowls.add(new Bowl(0));
         }
-        this.bIfTurnOfFirst = true;
+        this.bIfTurnOfFirst = true; // first turn is of the first player
     }
 
+    // make specific state out of integer array
     public void makeCustomDesk(ArrayList<Integer> aiCustomDesk){
         if ( aiCustomDesk.size() < iGameSize )
             return;
@@ -50,17 +54,20 @@ public class Desk {
         }
     }
 
-    private int relativePosition(int iAbsolutePosition){
+    // obtain absolute position in the array out of relative position of the player
+    private int absolutePosition(int iAbsolutePosition){
         return (bIfTurnOfFirst) ? iAbsolutePosition - 1 : iAbsolutePosition + iGameSize;
     }
 
+    // validation of the turn
     public boolean isValidTurn(int iPosition){
         if (iPosition < 1 || iPosition > iGameSize) return false;
-        return aBowls.get(this.relativePosition(iPosition)).getNumberOfSeeds() != 0;
+        return aBowls.get(this.absolutePosition(iPosition)).getNumberOfSeeds() != 0;
     }
 
+    // move seeds according to the rules of the game
     public void moveSeeds(int iPosition){
-        int iRelativePosition = this.relativePosition(iPosition);
+        int iRelativePosition = this.absolutePosition(iPosition);
         int iTempPosition = iRelativePosition;
         int iNumberOfTakenSeeds = aBowls.get(iRelativePosition).takeAllSeeds();
         for (int i = 0; i < iNumberOfTakenSeeds; i++){
@@ -82,33 +89,39 @@ public class Desk {
         this.changeTurn();
     }
 
+    // check if it's possible to steal opponent's seeds
     public boolean isAbleToSteal(int iPosition){
         if (iPosition == iPositionOfTray1 || iPosition == iPositionOfTray2) return false;
         if ((iPosition < iPositionOfTray1) != bIfTurnOfFirst) return false;
         return aBowls.get(iPosition).getNumberOfSeeds() == 1;
     }
 
+    // change turn
     private void changeTurn(){
         bIfTurnOfFirst = !bIfTurnOfFirst;
     }
 
+    // check if there is any possible turn for the next player
     public boolean isLastTurn(){
         for (int i = 0; i < iGameSize; i++){
-            if (aBowls.get(this.relativePosition(i + 1)).getNumberOfSeeds() > 0){
+            if (aBowls.get(this.absolutePosition(i + 1)).getNumberOfSeeds() > 0){
                 return false;
             }
         }
         return true;
     }
 
+    // obtain winner by comparing number of seeds in players' trays
     public boolean getWinner(){
         return aBowls.get(iPositionOfTray1).getNumberOfSeeds() > aBowls.get(iPositionOfTray2).getNumberOfSeeds();
     }
 
+    // update statistics of the players
     public void updateStatistics(){
 
     }
 
+    // representation of the current state of the game
     @Override
     public String toString(){
         String sDesk = "Current desk:\n";

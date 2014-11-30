@@ -5,7 +5,7 @@ package it.polimi.traybowl;
  */
 public class Bowl {
 
-    private int iNumberOfSeeds;
+    private int iNumberOfSeeds; // current number of seeds in the bowl
 
     public int getNumberOfSeeds() {
         return iNumberOfSeeds;
@@ -15,13 +15,15 @@ public class Bowl {
         this.iNumberOfSeeds = iNumberOfSeeds;
     }
 
+    // take all seeds from the bowl and return its number
     public int takeAllSeeds(){
         int i = iNumberOfSeeds;
         iNumberOfSeeds = 0;
         return i;
     }
 
-    public  void putSeeds(int iNumberOfSeeds){
+    // add specific number of seeds to the bowl
+    public void putSeeds(int iNumberOfSeeds){
         this.iNumberOfSeeds += iNumberOfSeeds;
     }
 

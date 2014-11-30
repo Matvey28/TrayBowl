@@ -53,7 +53,6 @@ public class TrayBowl {
 
                     System.out.println("And the winner is ... " + ((desk.getWinner()) ? p1.getName() : p2.getName()));
                     desk.updateStatistics();
-                    desk = deskTemp;
                     break;
                 case 2:
                     System.out.println("game size (now " + iGameSize + "):");
